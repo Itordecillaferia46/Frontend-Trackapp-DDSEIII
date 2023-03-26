@@ -133,6 +133,7 @@
                   <div class="input-group mb-2"  >
                   <v-file-input
                   style="width: 200px"
+                  accept=".pdf, .pptx"
                   v-model="pdf"
                   outlined
                   dense
@@ -147,7 +148,7 @@
                   </div>
                  
                   </v-row>
-                  <v-row v-for="(pdf,index) in pdfs" :key="index" style="max-width: 500px; margin-left: 20px; ">
+                  <v-row v-for="(pdf,index) in pdfs" :key="index"  style="max-width: 500px; margin-left: 20px; ">
                     <ul style="font-weight: bold;color:blue;text-decoration: underline">
                      <b-icon color="red"  icon="file-earmark-pdf-fill" font-scale="1"></b-icon> {{pdf.pdf.name}}
                     </ul>
@@ -158,14 +159,23 @@
                   <v-row style="width: 250px; margin-left: 20px; margin-right: 60px; " >
                     <v-file-input
                     v-model="h5p"
+                    accept=".h5p"
                     outlined
                     dense
                     rounded
                     background-color="#f6f2f2" 
-                    label="Agregar Archivo H5P"
+                    label="Agregar H5P"
                     prepend-icon="mdi-folder-file-outline"
                     variant="filled"
                   ></v-file-input>
+                  <button style="margin-left:25px" @click="agregarH5P()" class="input-group-append" >
+                      <span style="height: 60%; color:green;background-color:none;" ><b-icon  icon="gear" font-scale="2.5"></b-icon></span>
+                    </button>
+                  </v-row>
+                  <v-row v-for="(h5p,index) in h5ps" :key="index" style="max-width: 500px; margin-left: 20px; ">
+                    <ul style="font-weight: bold;color:blue;text-decoration: underline">
+                     <b-icon color="red"  icon="file-earmark-pdf-fill" font-scale="1"></b-icon> {{h5p.h5p.name}}
+                    </ul>
                   </v-row>
                 <v-row>
                       <vs-button @click="crearMicroClase()" style="margin-left:40%">
@@ -263,6 +273,7 @@ data() {
     pdf:null,
     pdfs:[],
     h5p:null,
+    h5ps:[],
   }
 },
 mounted() {
@@ -282,6 +293,7 @@ methods: {
     this.pdf=null;
     this.pdfs=[];
     this.h5p=null;
+    this.h5ps=[];
   },
   crearMicroClase(){
    if(this.nombre!=''){
@@ -366,11 +378,11 @@ methods: {
     this.pdf=null;
     this.col='green'
    this.hasSa=true;
-   this.mensaje='El PDF se agrego con exito'
+   this.mensaje='El archivo se agrego con exito'
     }else{
       this.col='red'
       this.hasSa=true;
-   this.mensaje='Debe selecinar PDF'
+   this.mensaje='Debe selecionar PDF o PPTX'
     }
   },
   agregarVideo(){
@@ -386,6 +398,21 @@ methods: {
       this.color='red'
       this.hasSaved=true;
    this.msg='Debe ingresar enlace de video'
+    }
+  },
+  agregarH5P(){
+    if(this.h5p!=null){
+    let h = new Object();
+    h.h5p=this.h5p;
+    this.h5ps.push(h);
+    this.h5p=null;
+    this.col='green'
+   this.hasSa=true;
+   this.mensaje='El archivo H5P se agregó con exito'
+    }else{
+      this.col='red'
+      this.hasSa=true;
+   this.mensaje='Debe selecionar un archivo con extensión .h5p'
     }
   },
 },
